@@ -13,15 +13,15 @@ knitr::opts_chunk$set(echo = TRUE, message=TRUE, warning=FALSE)
 library(tidyverse)
 library(stats)
 ```
+<center> <h1>Hierarchical Clustering With Santa Barbara Drainage Area</h1> </center>
 
-
-# **Introduction***
+# **Introduction**
 
 |   Clustering is useful as it allows us to show underlying relationships among observations. In this data there are records from various sites in the Santa Barbara coastal drainage area. In the recordings are concentrations of various nutrients found at each site at each collection time. Nutrients include ammonium, nitrate, phosphorus, total dissolved nitrogen, total dissolved phosphorus, total particulate carbon, total particulate nitrogen, total particulate phosphorus, total suspended solids, as well as the specific conductivity. 
 
 |   I will use the means of each of these measurements at each site to do hierarchical clustering using euclidian distances and complete linkage to determine relative relatedness between sites and do some clustering analysis.
  
-# **Method**
+# **Methods**
 
 This chunk reads in the data, replaces -999.0 with NA, and cleans the names for uniformity, and gets rid of the column with the timestamp:
 ```{r, message=FALSE, warning=FALSE}

@@ -455,8 +455,13 @@ display: none;
 
 library(tidyverse)
 library(stats)</code></pre>
+<center>
+<h1>
+Hierarchical Clustering With Santa Barbara Drainage Area
+</h1>
+</center>
 <div id="introduction" class="section level1">
-<h1>Introduction</h1>
+<h1><strong>Introduction</strong></h1>
 <div class="line-block">  Clustering is useful as it allows us to show
 underlying relationships among observations. In this data there are
 records from various sites in the Santa Barbara coastal drainage area.
@@ -472,7 +477,7 @@ distances and complete linkage to determine relative relatedness between
 sites and do some clustering analysis.</div>
 </div>
 <div id="methods" class="section level1">
-<h1>Methods</h1>
+<h1><strong>Methods</strong></h1>
 <p>This chunk reads in the data, replaces -999.0 with NA, and cleans the
 names for uniformity, and gets rid of the column with the timestamp:</p>
 <pre class="r"><code>streams &lt;- read_csv(here::here(&quot;task2/sbc_lter_registered_stream_chemistry.csv&quot;)) %&gt;%

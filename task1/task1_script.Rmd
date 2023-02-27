@@ -17,13 +17,15 @@ library(cowplot)
 
 <center> <h1>Principal Component Analysis on High Protein Food Groups</h1> </center>
 
-# Introduction
+# **Introduction**
 
 
-|   The data contain the nutritional information for different foods of a variety of food groups. The nutrition information contains measurements such as the total amount of kilocalories, grams of fat, protein, carbohydrates, sugar, and fiber, as well as miligrams of different vitamins. I will perform a Principal Components Analysis on the high protein food groups with the main nutritional information seen on the typical U.S. nutrition labels. 
+|   The data contain the nutritional information from the U.S. Department of Agriculture for different foods of a variety of food groups. The nutrition information contains measurements such as the total amount of kilocalories, grams of fat, protein, carbohydrates, sugar, and fiber, as well as miligrams of different vitamins. I will perform a Principal Components Analysis on the high protein food groups with the main nutritional information seen on the typical U.S. nutrition labels. 
 
 |   The food groups will be main protein sources: Beef Products; Dairy and Egg Products; Finfish and Shellfish Products; Lamb, Veal, and Game Products; Pork Products Poultry Products; and Sausages and Luncheon Meats.
 
+
+## **Methods**
 
 This chunk reads in the data, makes the food group a factor, and filters the data into only the food groups of interest.
 ```{r}
@@ -47,7 +49,7 @@ proteins_pca <- proteins %>%
 ```
 
 
-## Biplot
+## **Results** 
 
 This chunk creates the biplot seen below:
 ```{r, fig.cap="Figure 1. Biplot showing the top two principal components (PC) andthe ways that each nutrition value factors into the 2 PCs"}
@@ -58,7 +60,8 @@ autoplot(proteins_pca,
      	loadings.label = TRUE,
      	loadings.colour = "black",
      	loadings.label.colour = "black",
-     	loadings.label.vjust = -0.5
+     	loadings.label.vjust = -0.5,
+     	loadings.label.hjust = -0.6,
      	) +
    scale_color_manual(values=c("red", "darkorange", "gold", "green", "blue", "purple", "magenta")) +
    scale_fill_manual(values=c("red", "darkorange", "gold", "green", "blue", "purple", "magenta")) +
@@ -68,7 +71,7 @@ Analysis of Biplot:
 
 |   From the direction and magnitudes of the arrows, the biplot shows that carbohydrates and sugar are very correlated, as are fats and kilocalories. Fiber is relatively correlated with carbohydrates and sugar as well, and they are negatively correlated with amount of protein. There is the most variance in the food group from kilocalories and fat and the least from the amount of fiber.
 
-## Screeplot
+This chunk creates the screeplot:
 ```{r, fig.cap="Figure 2: Screeplot showing the amount that each principal component (PC) contributes to the overall variance in the data" }
 sd_vec <- proteins_pca$sdev
 var_vec <- sd_vec^2 ### standard deviation is sqrt of variance!
@@ -89,6 +92,16 @@ ggplot(pct_expl_df, aes(x = pc, y = v)) +
 ```
 
 |   The screeplot above shows that 66.4% of the variance in the food group of these foods can be explained by the first two principal components, and 85.1% of the variance can be explained by the first three principal components. 
+
+## **Conclusion**
+
+|   With Principal Component Analysis (PCA) we are able to simplify our understanding of the structures behind data by projecting them onto fewer Principal Components (PCs) rather than using all of the input variables. As can be seen in Figure 2 -- 85.1% of the variance in food group for these different food inputs can be explained by the top three PCs. Figure 1 shows the relative contribution of each nutritional variable towards each PC, and the correlation between each variable. This can be a helpful method to look into the underlying structure of our data when we have many input variables.
+
+### **References**
+
+U.S. Deparment of Agriculture. 2021, October. National Nutrient Database.https://fdc.nal.usda.gov/index.html
+
+
 
 
 
