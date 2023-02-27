@@ -15,8 +15,15 @@ library(stats)
 ```
 
 
+# **Introduction***
 
-This chunk reads in the data, replaces -999.0 with NA, and cleans the names for uniformity, and gets rid of the timestamp:
+|   Clustering is useful as it allows us to show underlying relationships among observations. In this data there are records from various sites in the Santa Barbara coastal drainage area. In the recordings are concentrations of various nutrients found at each site at each collection time. Nutrients include ammonium, nitrate, phosphorus, total dissolved nitrogen, total dissolved phosphorus, total particulate carbon, total particulate nitrogen, total particulate phosphorus, total suspended solids, as well as the specific conductivity. 
+
+|   I will use the means of each of these measurements at each site to do hierarchical clustering using euclidian distances and complete linkage to determine relative relatedness between sites and do some clustering analysis.
+ 
+# **Method**
+
+This chunk reads in the data, replaces -999.0 with NA, and cleans the names for uniformity, and gets rid of the column with the timestamp:
 ```{r, message=FALSE, warning=FALSE}
 streams <- read_csv(here::here("task2/sbc_lter_registered_stream_chemistry.csv")) %>%
   na_if(., -999.0) %>%
@@ -44,8 +51,11 @@ means_dist <- dist(means_scale, method = 'euclidean')
 
 
 ```
+
+# **Results** 
+
 This chunk performs the hierarchical complete linkage and creates the dendrogram of the stream sites:
-```{r}
+```{r, fig.cap="Figure 1: Dendrogram showing the various clusters of evaluation site of the Santa Barbara drainage area. Clusters that are connected at a lower y value are more closely related according to complete linkage"}
 stream_hc_complete <- stats::hclust(means_dist, method = "complete")
 
 ggdendro::ggdendrogram(stream_hc_complete, 
@@ -54,4 +64,15 @@ ggdendro::ggdendrogram(stream_hc_complete,
   theme_minimal() 
 
 ```
+
+# **Conclusion**
+
+|   The dendrogram shows that there are various numbers of clustes that we can use to show groups of drainage collection sites. Site DV01 is least related to the rest of the sites based on the euclidian distances of the means of the parameters discussed in the introduction. Sites MC00 and AB00 are the most closely related as they cluster of in two at the smallest "height" or y-value. 
+
+
+## **References**
+ Santa Barbara Coastal LTER and J. Melack. 2019. SBC LTER: Land: Stream chemistry in the Santa Barbara Coastal drainage area, ongoing since 2000 ver 16. Environmental Data Initiative. https://doi.org/10.6073/pasta/67a558a24ceed9a0a5bf5e46ab841174. 
+
+
+
 
