@@ -2,9 +2,56 @@
 title: "Task 2"
 author: "Hannah Irish"
 date: "2023-02-23"
-output: html_document
+output: 
+  html_document:
+    code_folding: hide
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=TRUE, warning=FALSE)
+
+library(tidyverse)
+library(stats)
 ```
+
+
+
+This chunk reads in the data, replaces -999.0 with NA, and cleans the names for uniformity, and gets rid of the timestamp:
+```{r, message=FALSE, warning=FALSE}
+streams <- read_csv(here::here("task2/sbc_lter_registered_stream_chemistry.csv")) %>%
+  na_if(., -999.0) %>%
+  janitor::clean_names() %>%
+  select(-2)
+
+
+```
+
+This chunk creates the data frame of the means of each variable, scales the data, and calculates the euclidian distances:
+```{r}
+
+means <- streams %>%
+  group_by(site_code) %>%
+  summarise_all(funs(mean), na.rm = TRUE) %>%
+  na_if(., "NaN")
+
+means_scale <- means %>%
+  select(is.numeric) %>%
+  scale()
+
+rownames(means_scale) <- means$site_code 
+
+means_dist <- dist(means_scale, method = 'euclidean')
+
+
+```
+This chunk performs the hierarchical complete linkage and creates the dendrogram of the stream sites:
+```{r}
+stream_hc_complete <- stats::hclust(means_dist, method = "complete")
+
+ggdendro::ggdendrogram(stream_hc_complete, 
+             rotate = TRUE) +
+  labs(x = "Site", y="",title="Stream Site Relatedness")+
+  theme_minimal() 
+
+```
+
